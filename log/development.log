@@ -1,0 +1,2820 @@
+  [1m[35m (231.5ms)[0m  [1m[35mCREATE DATABASE "eventbrite-v1_development" ENCODING = 'unicode'[0m
+  ↳ bin/rails:9
+  [1m[35m (259.7ms)[0m  [1m[35mCREATE DATABASE "eventbrite-v1_test" ENCODING = 'unicode'[0m
+  ↳ bin/rails:9
+  [1m[35m (12.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  ↳ bin/rails:9
+  [1m[35m (7.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4378871914417256550)[0m
+  ↳ bin/rails:9
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+Migrating to CreateUsers (20190211082548)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (8.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying, "encrypted_password" character varying, "description" text, "first_name" character varying, "last_name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/migrate/20190211082548_create_users.rb:3
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190211082548"]]
+  ↳ bin/rails:9
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+Migrating to CreateEvents (20190211082655)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "events" ("id" bigserial primary key, "start_date" timestamp, "duration" integer, "title" character varying, "description" text, "price" integer, "location" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/migrate/20190211082655_create_events.rb:3
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190211082655"]]
+  ↳ bin/rails:9
+  [1m[35m (3.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+Migrating to CreateAttendances (20190211082715)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (15.3ms)[0m  [1m[35mCREATE TABLE "attendances" ("id" bigserial primary key, "stripe_customer_id" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/migrate/20190211082715_create_attendances.rb:3
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190211082715"]]
+  ↳ bin/rails:9
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+Migrating to AddReferences (20190211082841)
+  [1m[35m (2.8ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "attendances" ADD "user_id" bigint[0m
+  ↳ db/migrate/20190211082841_add_references.rb:3
+  [1m[35m (4.1ms)[0m  [1m[35mCREATE  INDEX  "index_attendances_on_user_id" ON "attendances"  ("user_id")[0m
+  ↳ db/migrate/20190211082841_add_references.rb:3
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "attendances" ADD "event_id" bigint[0m
+  ↳ db/migrate/20190211082841_add_references.rb:4
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE  INDEX  "index_attendances_on_event_id" ON "attendances"  ("event_id")[0m
+  ↳ db/migrate/20190211082841_add_references.rb:4
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "events" ADD "admin_id" bigint[0m
+  ↳ db/migrate/20190211082841_add_references.rb:5
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE  INDEX  "index_events_on_admin_id" ON "events"  ("admin_id")[0m
+  ↳ db/migrate/20190211082841_add_references.rb:5
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "events" ADD CONSTRAINT "fk_rails_5c63870121"
+FOREIGN KEY ("admin_id")
+  REFERENCES "users" ("id")
+[0m
+  ↳ db/migrate/20190211082841_add_references.rb:6
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190211082841"]]
+  ↳ bin/rails:9
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-02-11 16:47:04.874522"], ["updated_at", "2019-02-11 16:47:04.874522"]]
+  ↳ bin/rails:9
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(4378871914417256550)[0m
+  ↳ bin/rails:9
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4378871914417256550)[0m
+  ↳ bin/rails:9
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[36mActiveRecord::InternalMetadata Load (1.6ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(4378871914417256550)[0m
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[36mEvent Load (0.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ db/seeds.rb:12
+  [1m[36mAttendance Load (0.7ms)[0m  [1m[34mSELECT "attendances".* FROM "attendances"[0m
+  ↳ db/seeds.rb:13
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ db/seeds.rb:14
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "halwolf@hagenes.com"], ["description", "Hello my name is Min and I am 22 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Min"], ["last_name", "Hahn"], ["created_at", "2019-02-11 16:47:13.420577"], ["updated_at", "2019-02-11 16:47:13.420577"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.9ms)
+UserMailer#welcome_mail: processed outbound mail in 727.9ms
+Sent mail to halwolf@hagenes.com (331.2ms)
+Date: Mon, 11 Feb 2019 17:47:14 +0100
+From: no-reply@eventbrite-fb.fr
+To: halwolf@hagenes.com
+Message-ID: <5c61a71226169_73f32ad86eb065b4979ed@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Min et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: halwolf@hagenes.com.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "mitchelloberbrunner@mcclurejakubowski.net"], ["description", "Hello my name is Dominick and I am 25 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Dominick"], ["last_name", "Emard"], ["created_at", "2019-02-11 16:47:14.491778"], ["updated_at", "2019-02-11 16:47:14.491778"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 15.2ms
+Sent mail to mitchelloberbrunner@mcclurejakubowski.net (213.5ms)
+Date: Mon, 11 Feb 2019 17:47:14 +0100
+From: no-reply@eventbrite-fb.fr
+To: mitchelloberbrunner@mcclurejakubowski.net
+Message-ID: <5c61a7127d130_73f32ad86eb065b498051@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Dominick et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: mitchelloberbrunner@mcclurejakubowski.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "jaime@bechtelar.biz"], ["description", "Hello my name is Nicky and I am 27 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Nicky"], ["last_name", "Dare"], ["created_at", "2019-02-11 16:47:14.731359"], ["updated_at", "2019-02-11 16:47:14.731359"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 15.3ms
+Sent mail to jaime@bechtelar.biz (211.8ms)
+Date: Mon, 11 Feb 2019 17:47:14 +0100
+From: no-reply@eventbrite-fb.fr
+To: jaime@bechtelar.biz
+Message-ID: <5c61a712b7914_73f32ad86eb065b4981bd@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Nicky et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: jaime@bechtelar.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "deneen@sipes.co"], ["description", "Hello my name is Farah and I am 24 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Farah"], ["last_name", "Bailey"], ["created_at", "2019-02-11 16:47:14.964759"], ["updated_at", "2019-02-11 16:47:14.964759"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.0ms)
+UserMailer#welcome_mail: processed outbound mail in 5.4ms
+Sent mail to deneen@sipes.co (210.7ms)
+Date: Mon, 11 Feb 2019 17:47:14 +0100
+From: no-reply@eventbrite-fb.fr
+To: deneen@sipes.co
+Message-ID: <5c61a712ed595_73f32ad86eb065b498231@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Farah et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: deneen@sipes.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "alfredspencer@ondricka.org"], ["description", "Hello my name is Cheyenne and I am 25 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Cheyenne"], ["last_name", "Russel"], ["created_at", "2019-02-11 16:47:15.188834"], ["updated_at", "2019-02-11 16:47:15.188834"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 14.9ms
+Sent mail to alfredspencer@ondricka.org (210.0ms)
+Date: Mon, 11 Feb 2019 17:47:15 +0100
+From: no-reply@eventbrite-fb.fr
+To: alfredspencer@ondricka.org
+Message-ID: <5c61a71332f89_73f32ad86eb065b4983f4@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Cheyenne et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: alfredspencer@ondricka.org.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "dominic@murraylind.name"], ["description", "Hello my name is Silva and I am 26 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Silva"], ["last_name", "Dibbert"], ["created_at", "2019-02-11 16:47:15.423262"], ["updated_at", "2019-02-11 16:47:15.423262"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 15.8ms
+Sent mail to dominic@murraylind.name (210.9ms)
+Date: Mon, 11 Feb 2019 17:47:15 +0100
+From: no-reply@eventbrite-fb.fr
+To: dominic@murraylind.name
+Message-ID: <5c61a7136c75c_73f32ad86eb065b4984a9@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Silva et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: dominic@murraylind.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "arlenhuel@klingwuckert.biz"], ["description", "Hello my name is Rufus and I am 23 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Rufus"], ["last_name", "Huels"], ["created_at", "2019-02-11 16:47:15.660715"], ["updated_at", "2019-02-11 16:47:15.660715"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 15.4ms
+Sent mail to arlenhuel@klingwuckert.biz (219.8ms)
+Date: Mon, 11 Feb 2019 17:47:15 +0100
+From: no-reply@eventbrite-fb.fr
+To: arlenhuel@klingwuckert.biz
+Message-ID: <5c61a713a66c4_73f32ad86eb065b498589@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Rufus et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: arlenhuel@klingwuckert.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "ambrose@huel.net"], ["description", "Hello my name is Lashaun and I am 20 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Lashaun"], ["last_name", "Hagenes"], ["created_at", "2019-02-11 16:47:15.906112"], ["updated_at", "2019-02-11 16:47:15.906112"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 14.6ms
+Sent mail to ambrose@huel.net (216.7ms)
+Date: Mon, 11 Feb 2019 17:47:15 +0100
+From: no-reply@eventbrite-fb.fr
+To: ambrose@huel.net
+Message-ID: <5c61a713e1f8c_73f32ad86eb065b49866b@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Lashaun et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: ambrose@huel.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "ricky@king.co"], ["description", "Hello my name is Rolf and I am 20 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Rolf"], ["last_name", "Wilderman"], ["created_at", "2019-02-11 16:47:16.148446"], ["updated_at", "2019-02-11 16:47:16.148446"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 14.8ms
+Sent mail to ricky@king.co (216.7ms)
+Date: Mon, 11 Feb 2019 17:47:16 +0100
+From: no-reply@eventbrite-fb.fr
+To: ricky@king.co
+Message-ID: <5c61a7142913b_73f32ad86eb065b498797@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Rolf et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: ricky@king.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "franklincummerata@yost.name"], ["description", "Hello my name is Sammy and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Sammy"], ["last_name", "Sawayn"], ["created_at", "2019-02-11 16:47:16.390208"], ["updated_at", "2019-02-11 16:47:16.390208"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 11.2ms
+Sent mail to franklincummerata@yost.name (225.0ms)
+Date: Mon, 11 Feb 2019 17:47:16 +0100
+From: no-reply@eventbrite-fb.fr
+To: franklincummerata@yost.name
+Message-ID: <5c61a714634bd_73f32ad86eb065b49882d@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Sammy et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: franklincummerata@yost.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "milan@gulgowski.io"], ["description", "Hello my name is Bridgett and I am 21 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Bridgett"], ["last_name", "Fahey"], ["created_at", "2019-02-11 16:47:16.639045"], ["updated_at", "2019-02-11 16:47:16.639045"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 17.9ms
+Sent mail to milan@gulgowski.io (211.0ms)
+Date: Mon, 11 Feb 2019 17:47:16 +0100
+From: no-reply@eventbrite-fb.fr
+To: milan@gulgowski.io
+Message-ID: <5c61a714a1ec8_73f32ad86eb065b4989e7@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Bridgett et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: milan@gulgowski.io.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "teie@schaeferhalvorson.name"], ["description", "Hello my name is Alton and I am 27 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Alton"], ["last_name", "Emard"], ["created_at", "2019-02-11 16:47:16.878697"], ["updated_at", "2019-02-11 16:47:16.878697"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 16.9ms
+Sent mail to teie@schaeferhalvorson.name (211.6ms)
+Date: Mon, 11 Feb 2019 17:47:16 +0100
+From: no-reply@eventbrite-fb.fr
+To: teie@schaeferhalvorson.name
+Message-ID: <5c61a714dbef3_73f32ad86eb065b49901f@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Alton et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: teie@schaeferhalvorson.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "lonnyhyatt@mooreborer.biz"], ["description", "Hello my name is Gabriel and I am 28 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Gabriel"], ["last_name", "Braun"], ["created_at", "2019-02-11 16:47:17.118995"], ["updated_at", "2019-02-11 16:47:17.118995"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 11.8ms
+Sent mail to lonnyhyatt@mooreborer.biz (211.2ms)
+Date: Mon, 11 Feb 2019 17:47:17 +0100
+From: no-reply@eventbrite-fb.fr
+To: lonnyhyatt@mooreborer.biz
+Message-ID: <5c61a715212ae_73f32ad86eb065b499153@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Gabriel et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: lonnyhyatt@mooreborer.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "scot@little.name"], ["description", "Hello my name is Jamal and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Jamal"], ["last_name", "Pfannerstill"], ["created_at", "2019-02-11 16:47:17.354791"], ["updated_at", "2019-02-11 16:47:17.354791"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 15.8ms
+Sent mail to scot@little.name (236.7ms)
+Date: Mon, 11 Feb 2019 17:47:17 +0100
+From: no-reply@eventbrite-fb.fr
+To: scot@little.name
+Message-ID: <5c61a71561771_73f32ad86eb065b499211@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Jamal et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: scot@little.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "orlando@lefflerwaters.name"], ["description", "Hello my name is Easter and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Easter"], ["last_name", "Koepp"], ["created_at", "2019-02-11 16:47:17.620327"], ["updated_at", "2019-02-11 16:47:17.620327"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 16.5ms
+Sent mail to orlando@lefflerwaters.name (209.4ms)
+Date: Mon, 11 Feb 2019 17:47:17 +0100
+From: no-reply@eventbrite-fb.fr
+To: orlando@lefflerwaters.name
+Message-ID: <5c61a7159cb03_73f32ad86eb065b499362@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Easter et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: orlando@lefflerwaters.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "birgitgrimes@schneider.com"], ["description", "Hello my name is Tosha and I am 29 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Tosha"], ["last_name", "Russel"], ["created_at", "2019-02-11 16:47:17.856782"], ["updated_at", "2019-02-11 16:47:17.856782"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 18.3ms
+Sent mail to birgitgrimes@schneider.com (204.3ms)
+Date: Mon, 11 Feb 2019 17:47:17 +0100
+From: no-reply@eventbrite-fb.fr
+To: birgitgrimes@schneider.com
+Message-ID: <5c61a715d712d_73f32ad86eb065b4994bd@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Tosha et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: birgitgrimes@schneider.com.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "elliot@graham.com"], ["description", "Hello my name is Wade and I am 22 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Wade"], ["last_name", "Sauer"], ["created_at", "2019-02-11 16:47:18.091320"], ["updated_at", "2019-02-11 16:47:18.091320"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.2ms)
+UserMailer#welcome_mail: processed outbound mail in 18.1ms
+Sent mail to elliot@graham.com (275.5ms)
+Date: Mon, 11 Feb 2019 17:47:18 +0100
+From: no-reply@eventbrite-fb.fr
+To: elliot@graham.com
+Message-ID: <5c61a7161c64e_73f32ad86eb065b499535@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Wade et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: elliot@graham.com.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "prince@jakubowski.net"], ["description", "Hello my name is Edmond and I am 22 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Edmond"], ["last_name", "Ernser"], ["created_at", "2019-02-11 16:47:18.394750"], ["updated_at", "2019-02-11 16:47:18.394750"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 17.4ms
+Sent mail to prince@jakubowski.net (217.5ms)
+Date: Mon, 11 Feb 2019 17:47:18 +0100
+From: no-reply@eventbrite-fb.fr
+To: prince@jakubowski.net
+Message-ID: <5c61a7166635f_73f32ad86eb065b499674@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Edmond et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: prince@jakubowski.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "enrique@langosh.co"], ["description", "Hello my name is Alonso and I am 30 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Alonso"], ["last_name", "Wuckert"], ["created_at", "2019-02-11 16:47:18.640266"], ["updated_at", "2019-02-11 16:47:18.640266"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 8.5ms
+Sent mail to enrique@langosh.co (205.0ms)
+Date: Mon, 11 Feb 2019 17:47:18 +0100
+From: no-reply@eventbrite-fb.fr
+To: enrique@langosh.co
+Message-ID: <5c61a7169f556_73f32ad86eb065b49974a@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Alonso et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: enrique@langosh.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "salena@ritchie.info"], ["description", "Hello my name is Manuel and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Manuel"], ["last_name", "Lubowitz"], ["created_at", "2019-02-11 16:47:18.861173"], ["updated_at", "2019-02-11 16:47:18.861173"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 8.2ms
+Sent mail to salena@ritchie.info (206.1ms)
+Date: Mon, 11 Feb 2019 17:47:18 +0100
+From: no-reply@eventbrite-fb.fr
+To: salena@ritchie.info
+Message-ID: <5c61a716d50da_73f32ad86eb065b499812@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Manuel et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: salena@ritchie.info.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "kendrickcummerata@rippin.name"], ["description", "Hello my name is Wan and I am 30 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Wan"], ["last_name", "Dooley"], ["created_at", "2019-02-11 16:47:19.088591"], ["updated_at", "2019-02-11 16:47:19.088591"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 9.6ms
+Sent mail to kendrickcummerata@rippin.name (212.6ms)
+Date: Mon, 11 Feb 2019 17:47:19 +0100
+From: no-reply@eventbrite-fb.fr
+To: kendrickcummerata@rippin.name
+Message-ID: <5c61a71719580_73f32ad86eb065b499941@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Wan et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: kendrickcummerata@rippin.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "angelic@ondrickalittle.org"], ["description", "Hello my name is Ailene and I am 23 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Ailene"], ["last_name", "Reichel"], ["created_at", "2019-02-11 16:47:19.322959"], ["updated_at", "2019-02-11 16:47:19.322959"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 18.0ms
+Sent mail to angelic@ondrickalittle.org (218.1ms)
+Date: Mon, 11 Feb 2019 17:47:19 +0100
+From: no-reply@eventbrite-fb.fr
+To: angelic@ondrickalittle.org
+Message-ID: <5c61a71754d3e_73f32ad86eb065b410008e@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Ailene et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: angelic@ondrickalittle.org.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "zackarymoriette@altenwerth.com"], ["description", "Hello my name is Jay and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Jay"], ["last_name", "Gulgowski"], ["created_at", "2019-02-11 16:47:19.569746"], ["updated_at", "2019-02-11 16:47:19.569746"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 10.4ms
+Sent mail to zackarymoriette@altenwerth.com (215.8ms)
+Date: Mon, 11 Feb 2019 17:47:19 +0100
+From: no-reply@eventbrite-fb.fr
+To: zackarymoriette@altenwerth.com
+Message-ID: <5c61a7178e918_73f32ad86eb065b4100163@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Jay et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: zackarymoriette@altenwerth.com.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "kevinledner@hammesmarvin.net"], ["description", "Hello my name is Jene and I am 29 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Jene"], ["last_name", "Stehr"], ["created_at", "2019-02-11 16:47:19.805362"], ["updated_at", "2019-02-11 16:47:19.805362"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.2ms)
+UserMailer#welcome_mail: processed outbound mail in 19.4ms
+Sent mail to kevinledner@hammesmarvin.net (209.5ms)
+Date: Mon, 11 Feb 2019 17:47:19 +0100
+From: no-reply@eventbrite-fb.fr
+To: kevinledner@hammesmarvin.net
+Message-ID: <5c61a717cb2ed_73f32ad86eb065b41002c5@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Jene et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: kevinledner@hammesmarvin.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "filiberto@witting.biz"], ["description", "Hello my name is Janine and I am 27 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Janine"], ["last_name", "Heathcote"], ["created_at", "2019-02-11 16:47:20.046864"], ["updated_at", "2019-02-11 16:47:20.046864"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 11.7ms
+Sent mail to filiberto@witting.biz (218.8ms)
+Date: Mon, 11 Feb 2019 17:47:20 +0100
+From: no-reply@eventbrite-fb.fr
+To: filiberto@witting.biz
+Message-ID: <5c61a718fd4e_73f32ad86eb065b410037f@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Janine et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: filiberto@witting.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "judi@marvinhirthe.name"], ["description", "Hello my name is Gerald and I am 26 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Gerald"], ["last_name", "Graham"], ["created_at", "2019-02-11 16:47:20.289479"], ["updated_at", "2019-02-11 16:47:20.289479"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 15.0ms
+Sent mail to judi@marvinhirthe.name (206.9ms)
+Date: Mon, 11 Feb 2019 17:47:20 +0100
+From: no-reply@eventbrite-fb.fr
+To: judi@marvinhirthe.name
+Message-ID: <5c61a7184bfca_73f32ad86eb065b41004f3@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Gerald et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: judi@marvinhirthe.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "mildredglover@greenschoen.co"], ["description", "Hello my name is Shannon and I am 21 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Shannon"], ["last_name", "Johnston"], ["created_at", "2019-02-11 16:47:20.523993"], ["updated_at", "2019-02-11 16:47:20.523993"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 17.4ms
+Sent mail to mildredglover@greenschoen.co (212.8ms)
+Date: Mon, 11 Feb 2019 17:47:20 +0100
+From: no-reply@eventbrite-fb.fr
+To: mildredglover@greenschoen.co
+Message-ID: <5c61a71885680_73f32ad86eb065b4100599@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Shannon et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: mildredglover@greenschoen.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "krishna@skiles.biz"], ["description", "Hello my name is Chi and I am 30 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Chi"], ["last_name", "Ryan"], ["created_at", "2019-02-11 16:47:20.763888"], ["updated_at", "2019-02-11 16:47:20.763888"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 9.5ms
+Sent mail to krishna@skiles.biz (213.1ms)
+Date: Mon, 11 Feb 2019 17:47:20 +0100
+From: no-reply@eventbrite-fb.fr
+To: krishna@skiles.biz
+Message-ID: <5c61a718be30f_73f32ad86eb065b4100632@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Chi et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: krishna@skiles.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "leon@schusterleuschke.net"], ["description", "Hello my name is Zachery and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Zachery"], ["last_name", "Borer"], ["created_at", "2019-02-11 16:47:20.999068"], ["updated_at", "2019-02-11 16:47:20.999068"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 18.1ms
+Sent mail to leon@schusterleuschke.net (209.3ms)
+Date: Mon, 11 Feb 2019 17:47:21 +0100
+From: no-reply@eventbrite-fb.fr
+To: leon@schusterleuschke.net
+Message-ID: <5c61a7195819_73f32ad86eb065b4100759@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Zachery et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: leon@schusterleuschke.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "stewart@botsford.org"], ["description", "Hello my name is Ardelle and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Ardelle"], ["last_name", "Schuppe"], ["created_at", "2019-02-11 16:47:21.238461"], ["updated_at", "2019-02-11 16:47:21.238461"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 20.1ms
+Sent mail to stewart@botsford.org (214.3ms)
+Date: Mon, 11 Feb 2019 17:47:21 +0100
+From: no-reply@eventbrite-fb.fr
+To: stewart@botsford.org
+Message-ID: <5c61a71940b84_73f32ad86eb065b41008a7@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Ardelle et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: stewart@botsford.org.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "franciscoondricka@rodriguezhansen.name"], ["description", "Hello my name is Maranda and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Maranda"], ["last_name", "Nicolas"], ["created_at", "2019-02-11 16:47:21.481790"], ["updated_at", "2019-02-11 16:47:21.481790"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 6.0ms
+Sent mail to franciscoondricka@rodriguezhansen.name (217.7ms)
+Date: Mon, 11 Feb 2019 17:47:21 +0100
+From: no-reply@eventbrite-fb.fr
+To: franciscoondricka@rodriguezhansen.name
+Message-ID: <5c61a719779d8_73f32ad86eb065b4100929@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Maranda et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: franciscoondricka@rodriguezhansen.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "danielebailey@bergeortiz.io"], ["description", "Hello my name is Osvaldo and I am 23 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Osvaldo"], ["last_name", "Wintheiser"], ["created_at", "2019-02-11 16:47:21.712647"], ["updated_at", "2019-02-11 16:47:21.712647"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 17.3ms
+Sent mail to danielebailey@bergeortiz.io (209.7ms)
+Date: Mon, 11 Feb 2019 17:47:21 +0100
+From: no-reply@eventbrite-fb.fr
+To: danielebailey@bergeortiz.io
+Message-ID: <5c61a719b3cc7_73f32ad86eb065b41010cc@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Osvaldo et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: danielebailey@bergeortiz.io.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "digna@kreiger.net"], ["description", "Hello my name is Laurence and I am 23 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Laurence"], ["last_name", "Kihn"], ["created_at", "2019-02-11 16:47:21.951828"], ["updated_at", "2019-02-11 16:47:21.951828"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 8.6ms
+Sent mail to digna@kreiger.net (218.0ms)
+Date: Mon, 11 Feb 2019 17:47:21 +0100
+From: no-reply@eventbrite-fb.fr
+To: digna@kreiger.net
+Message-ID: <5c61a719eb465_73f32ad86eb065b410118c@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Laurence et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: digna@kreiger.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "ashlynwisoky@rempel.co"], ["description", "Hello my name is Woodrow and I am 21 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Woodrow"], ["last_name", "Kreiger"], ["created_at", "2019-02-11 16:47:22.185146"], ["updated_at", "2019-02-11 16:47:22.185146"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 7.8ms
+Sent mail to ashlynwisoky@rempel.co (208.4ms)
+Date: Mon, 11 Feb 2019 17:47:22 +0100
+From: no-reply@eventbrite-fb.fr
+To: ashlynwisoky@rempel.co
+Message-ID: <5c61a71a2fdc7_73f32ad86eb065b41012bf@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Woodrow et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: ashlynwisoky@rempel.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "beliaorn@ryan.net"], ["description", "Hello my name is Harley and I am 22 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Harley"], ["last_name", "Rippin"], ["created_at", "2019-02-11 16:47:22.410711"], ["updated_at", "2019-02-11 16:47:22.410711"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 17.4ms
+Sent mail to beliaorn@ryan.net (212.5ms)
+Date: Mon, 11 Feb 2019 17:47:22 +0100
+From: no-reply@eventbrite-fb.fr
+To: beliaorn@ryan.net
+Message-ID: <5c61a71a69c4f_73f32ad86eb065b410136e@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Harley et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: beliaorn@ryan.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (3.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "kimberlykovacek@herzogconn.com"], ["description", "Hello my name is Erich and I am 24 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Erich"], ["last_name", "D'Amore"], ["created_at", "2019-02-11 16:47:22.653320"], ["updated_at", "2019-02-11 16:47:22.653320"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 10.6ms
+Sent mail to kimberlykovacek@herzogconn.com (200.6ms)
+Date: Mon, 11 Feb 2019 17:47:22 +0100
+From: no-reply@eventbrite-fb.fr
+To: kimberlykovacek@herzogconn.com
+Message-ID: <5c61a71aa4318_73f32ad86eb065b41014f9@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Erich et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: kimberlykovacek@herzogconn.com.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "brain@schmelerkuphal.com"], ["description", "Hello my name is Jerry and I am 28 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Jerry"], ["last_name", "Koss"], ["created_at", "2019-02-11 16:47:22.880438"], ["updated_at", "2019-02-11 16:47:22.880438"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 20.6ms
+Sent mail to brain@schmelerkuphal.com (218.6ms)
+Date: Mon, 11 Feb 2019 17:47:22 +0100
+From: no-reply@eventbrite-fb.fr
+To: brain@schmelerkuphal.com
+Message-ID: <5c61a71add9ce_73f32ad86eb065b4101526@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Jerry et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: brain@schmelerkuphal.com.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "wileysteuber@daugherty.info"], ["description", "Hello my name is Roberto and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Roberto"], ["last_name", "Becker"], ["created_at", "2019-02-11 16:47:23.129910"], ["updated_at", "2019-02-11 16:47:23.129910"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 13.7ms
+Sent mail to wileysteuber@daugherty.info (213.2ms)
+Date: Mon, 11 Feb 2019 17:47:23 +0100
+From: no-reply@eventbrite-fb.fr
+To: wileysteuber@daugherty.info
+Message-ID: <5c61a71b24456_73f32ad86eb065b41016af@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Roberto et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: wileysteuber@daugherty.info.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "corimuller@schinnerlind.org"], ["description", "Hello my name is Danial and I am 20 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Danial"], ["last_name", "Swaniawski"], ["created_at", "2019-02-11 16:47:23.367988"], ["updated_at", "2019-02-11 16:47:23.367988"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 10.4ms
+Sent mail to corimuller@schinnerlind.org (230.0ms)
+Date: Mon, 11 Feb 2019 17:47:23 +0100
+From: no-reply@eventbrite-fb.fr
+To: corimuller@schinnerlind.org
+Message-ID: <5c61a71b5da91_73f32ad86eb065b4101721@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Danial et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: corimuller@schinnerlind.org.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "greg@dooleyreilly.biz"], ["description", "Hello my name is Max and I am 30 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Max"], ["last_name", "Yost"], ["created_at", "2019-02-11 16:47:23.618780"], ["updated_at", "2019-02-11 16:47:23.618780"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 21.1ms
+Sent mail to greg@dooleyreilly.biz (240.1ms)
+Date: Mon, 11 Feb 2019 17:47:23 +0100
+From: no-reply@eventbrite-fb.fr
+To: greg@dooleyreilly.biz
+Message-ID: <5c61a71b9d837_73f32ad86eb065b4101876@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Max et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: greg@dooleyreilly.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "johnson@dickenskiehn.io"], ["description", "Hello my name is Birgit and I am 18 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Birgit"], ["last_name", "Robel"], ["created_at", "2019-02-11 16:47:23.892374"], ["updated_at", "2019-02-11 16:47:23.892374"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 20.8ms
+Sent mail to johnson@dickenskiehn.io (209.8ms)
+Date: Mon, 11 Feb 2019 17:47:23 +0100
+From: no-reply@eventbrite-fb.fr
+To: johnson@dickenskiehn.io
+Message-ID: <5c61a71be06f0_73f32ad86eb065b41019de@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Birgit et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: johnson@dickenskiehn.io.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "annamaria@kohlerframi.net"], ["description", "Hello my name is Efren and I am 26 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Efren"], ["last_name", "Hudson"], ["created_at", "2019-02-11 16:47:24.135652"], ["updated_at", "2019-02-11 16:47:24.135652"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.2ms)
+UserMailer#welcome_mail: processed outbound mail in 21.2ms
+Sent mail to annamaria@kohlerframi.net (213.4ms)
+Date: Mon, 11 Feb 2019 17:47:24 +0100
+From: no-reply@eventbrite-fb.fr
+To: annamaria@kohlerframi.net
+Message-ID: <5c61a71c27f05_73f32ad86eb065b41020fc@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Efren et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: annamaria@kohlerframi.net.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "codygoyette@quitzon.biz"], ["description", "Hello my name is Carissa and I am 19 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Carissa"], ["last_name", "Daniel"], ["created_at", "2019-02-11 16:47:24.379157"], ["updated_at", "2019-02-11 16:47:24.379157"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.0ms)
+UserMailer#welcome_mail: processed outbound mail in 4.0ms
+Sent mail to codygoyette@quitzon.biz (207.7ms)
+Date: Mon, 11 Feb 2019 17:47:24 +0100
+From: no-reply@eventbrite-fb.fr
+To: codygoyette@quitzon.biz
+Message-ID: <5c61a71c5df2b_73f32ad86eb065b4102143@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Carissa et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: codygoyette@quitzon.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "dorothapfeffer@weimannwehner.co"], ["description", "Hello my name is Carlyn and I am 21 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Carlyn"], ["last_name", "Reilly"], ["created_at", "2019-02-11 16:47:24.597467"], ["updated_at", "2019-02-11 16:47:24.597467"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 16.5ms
+Sent mail to dorothapfeffer@weimannwehner.co (217.5ms)
+Date: Mon, 11 Feb 2019 17:47:24 +0100
+From: no-reply@eventbrite-fb.fr
+To: dorothapfeffer@weimannwehner.co
+Message-ID: <5c61a71c973cb_73f32ad86eb065b410227f@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Carlyn et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: dorothapfeffer@weimannwehner.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "bryonmarvin@wyman.co"], ["description", "Hello my name is Amanda and I am 20 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Amanda"], ["last_name", "Schiller"], ["created_at", "2019-02-11 16:47:24.843454"], ["updated_at", "2019-02-11 16:47:24.843454"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 19.8ms
+Sent mail to bryonmarvin@wyman.co (216.7ms)
+Date: Mon, 11 Feb 2019 17:47:24 +0100
+From: no-reply@eventbrite-fb.fr
+To: bryonmarvin@wyman.co
+Message-ID: <5c61a71cd477e_73f32ad86eb065b4102378@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Amanda et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: bryonmarvin@wyman.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "ranaestracke@becker.biz"], ["description", "Hello my name is Yevette and I am 28 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Yevette"], ["last_name", "Reinger"], ["created_at", "2019-02-11 16:47:25.095174"], ["updated_at", "2019-02-11 16:47:25.095174"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 9.6ms
+Sent mail to ranaestracke@becker.biz (209.8ms)
+Date: Mon, 11 Feb 2019 17:47:25 +0100
+From: no-reply@eventbrite-fb.fr
+To: ranaestracke@becker.biz
+Message-ID: <5c61a71d1ada8_73f32ad86eb065b41024b9@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Yevette et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: ranaestracke@becker.biz.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "roxaneberge@thompsonframi.org"], ["description", "Hello my name is Jaime and I am 26 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Jaime"], ["last_name", "King"], ["created_at", "2019-02-11 16:47:25.325434"], ["updated_at", "2019-02-11 16:47:25.325434"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 12.9ms
+Sent mail to roxaneberge@thompsonframi.org (210.5ms)
+Date: Mon, 11 Feb 2019 17:47:25 +0100
+From: no-reply@eventbrite-fb.fr
+To: roxaneberge@thompsonframi.org
+Message-ID: <5c61a71d54176_73f32ad86eb065b41025f8@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Jaime et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: roxaneberge@thompsonframi.org.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "kendall@rempel.io"], ["description", "Hello my name is Jackie and I am 28 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Jackie"], ["last_name", "Wisozk"], ["created_at", "2019-02-11 16:47:25.560610"], ["updated_at", "2019-02-11 16:47:25.560610"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 18.2ms
+Sent mail to kendall@rempel.io (216.3ms)
+Date: Mon, 11 Feb 2019 17:47:25 +0100
+From: no-reply@eventbrite-fb.fr
+To: kendall@rempel.io
+Message-ID: <5c61a71d8ecb4_73f32ad86eb065b4102657@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Jackie et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: kendall@rempel.io.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "julianneffertz@ziemann.co"], ["description", "Hello my name is Sarai and I am 18 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Sarai"], ["last_name", "Altenwerth"], ["created_at", "2019-02-11 16:47:25.805367"], ["updated_at", "2019-02-11 16:47:25.805367"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.2ms)
+UserMailer#welcome_mail: processed outbound mail in 17.8ms
+Sent mail to julianneffertz@ziemann.co (214.5ms)
+Date: Mon, 11 Feb 2019 17:47:25 +0100
+From: no-reply@eventbrite-fb.fr
+To: julianneffertz@ziemann.co
+Message-ID: <5c61a71dca6f3_73f32ad86eb065b410277@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Sarai et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: julianneffertz@ziemann.co.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:21
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("email", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "robertobechtelar@rippin.name"], ["description", "Hello my name is Kara and I am 25 y-o. I would like to attempt at least 1 event a week"], ["first_name", "Kara"], ["last_name", "Turner"], ["created_at", "2019-02-11 16:47:26.049104"], ["updated_at", "2019-02-11 16:47:26.049104"]]
+  ↳ db/seeds.rb:21
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.1ms)
+UserMailer#welcome_mail: processed outbound mail in 18.0ms
+Sent mail to robertobechtelar@rippin.name (215.6ms)
+Date: Mon, 11 Feb 2019 17:47:26 +0100
+From: no-reply@eventbrite-fb.fr
+To: robertobechtelar@rippin.name
+Message-ID: <5c61a71e11aa3_73f32ad86eb065b41028f0@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut Kara et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: robertobechtelar@rippin.name.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ db/seeds.rb:21
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+DEPRECATION WARNING: Dangerous query method (method whose arguments are used as raw SQL) called with non-attribute argument(s): "RANDOM()". Non-attribute arguments will be disallowed in Rails 6.0. This method should not be called with user-provided values, such as request parameters or model attributes. Known-safe values can be passed by wrapping them in Arel.sql(). (called from block in <main> at /home/bouhlel/code/24/eventbrite-v1/db/seeds.rb:28)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY RANDOM() LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ db/seeds.rb:28
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ db/seeds.rb:28
+  [1m[36mEvent Load (0.2ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ db/seeds.rb:34
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "description", "first_name", "last_name", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["email", "TONEMAILVALIDE@MAILVALIDE.COM"], ["encrypted_password", "azerty"], ["description", "La super desc de l'utilisateur que tu viens de créer"], ["first_name", "John"], ["last_name", "Doe"], ["created_at", "2019-02-11 16:47:34.829277"], ["updated_at", "2019-02-11 16:47:34.829277"]]
+  Rendering user_mailer/welcome_mail.html.erb within layouts/mailer
+  Rendered user_mailer/welcome_mail.html.erb within layouts/mailer (0.6ms)
+UserMailer#welcome_mail: processed outbound mail in 18.4ms
+Sent mail to TONEMAILVALIDE@MAILVALIDE.COM (233.5ms)
+Date: Mon, 11 Feb 2019 17:47:34 +0100
+From: no-reply@eventbrite-fb.fr
+To: TONEMAILVALIDE@MAILVALIDE.COM
+Message-ID: <5c61a726d0e49_74582b20746fe5b8937bf@bouhlel-Aspire-A517-51G.mail>
+Subject: Bienvue sur Eventbrite-fb !
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html>=0D
+  <head>=0D
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />=0D
+    <style>=0D
+      /* Email styles need to be inline */=0D
+    </style>=0D
+  </head>=0D
+=0D
+  <body>=0D
+    <html>=0D
+  <head>=0D
+    <meta content=3D'text/html; charset=3DUTF-8' http-equiv=3D'Content-Ty=
+pe' />=0D
+  </head>=0D
+  <body>=0D
+    <h1>Salut John et bienvenue chez nous !</h1>=0D
+    <p>=0D
+      Tu t'es inscrit sur eventbrite-fb.fr en utilisant l'e-mail suivant =
+: TONEMAILVALIDE@MAILVALIDE.COM.=0D
+    </p>=0D
+    <p>=0D
+      Pour acc=C3=A9der =C3=A0 ton espace client, connecte-toi via : http=
+s://eventbrite-fb.herokuapp.com/login.=0D
+    </p>=0D
+    <p> =C3=80 tr=C3=A8s vite sur eventbrite-fb.fr ! </p>=0D
+  </body>=0D
+</html>=0D
+  </body>=0D
+</html>=0D
+
+  [1m[35m (11.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mEvent Load (1.8ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  [1m[36mUser Load (1.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
